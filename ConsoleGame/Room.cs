@@ -14,6 +14,7 @@ namespace ConsoleGame
         public string LookAround()
         {
             var sb = new StringBuilder();
+            sb.AppendLine("In this room you see: ");
             foreach (var obj in Items)
             {
                 sb.AppendLine(obj.ToString());
