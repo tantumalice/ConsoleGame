@@ -1,25 +1,38 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using ConsoleGame.GameObjects;
 
 namespace ConsoleGame
 {
     static class Player
     {
-        public static string Name { get; private set; }
+        public static string Name { get; set; } = "Stranger";
+
+        public static string Description = "You are here to explore the Rooms.";
+
+        public static Room Location
+        {
+            get
+            {
+                return GameField.Field[coordinates.x, coordinates.y];
+            }
+        }
 
         private static List<GameObject> inventory = new List<GameObject>(inventoryCapacity);
 
-        private static readonly int inventoryCapacity = 10;
+        private static readonly int inventoryCapacity = 8;
 
-        private static (int x, int y) currentLocation;
+        private static (int x, int y) coordinates;
 
         private static (int rangeX, int rangeY) field;
 
-        public static void SetGameField(int rangeX, int rangeY)
+        public static void SetGameField(Room[,] gameField)
         {
             Random rnd = new Random();
-            currentLocation = (rnd.Next(0, rangeX), rnd.Next(0, rangeY));
+            var rangeX = gameField.GetLength(0);
+            var rangeY = gameField.GetLength(1);
+            coordinates = (rnd.Next(rangeX), rnd.Next(rangeY));
             field = (rangeX, rangeY);
         }
         public static string Go(string direction)
@@ -27,42 +40,53 @@ namespace ConsoleGame
             bool success = false;
             switch (direction)
             {
-                case "запад":
-                    if (currentLocation.x - 1 > 0)
+                case "West":
+                    if (coordinates.x - 1 > 0)
                     {
-                        currentLocation.x--;
+                        coordinates.x--;
                         success = true;
                     }
                     break;
-                case "восток":
-                    if (currentLocation.x + 1 < field.rangeX)
+                case "East":
+                    if (coordinates.x + 1 < field.rangeX)
                     {
-                        currentLocation.x++;
+                        coordinates.x++;
                         success = true;
                     }
                     break;
-                case "север":
-                    if (currentLocation.x + 1 < field.rangeY)
+                case "North":
+                    if (coordinates.y + 1 < field.rangeY)
                     {
-                        currentLocation.y++;
+                        coordinates.y++;
                         success = true;
                     }
                     break;
-                case "юг":
-                    if (currentLocation.y - 1 < 0)
+                case "South":
+                    if (coordinates.y - 1 > 0)
                     {
-                        currentLocation.y--;
+                        coordinates.y--;
                         success = true;
                     }
                     break;
                 default:
-                    return "Неверное направление.";
+                    return "Wrong direction.";
             }
-            return success ? "Вы прошли в другую комнату." : "Здесь нет двери.";
+            return success ? "You have entered the next room." : "There is no door here.";
+        }
+
+        public static string About()
+        {
+            var sb = new StringBuilder();
+            sb.AppendLine("About you:");
+            sb.Append("Your name is ").AppendLine(Name);
+            sb.AppendLine(Description);
+            sb.AppendLine($"You are at {coordinates.x}, {coordinates.y}");
+            return sb.ToString();
         }
         public static string ShowInventory()
         {
             var sb = new StringBuilder();
+            sb.AppendLine("Your inventory: ");
             foreach (var obj in inventory)
             {
                 sb.AppendLine(obj.ToString());
@@ -74,16 +98,16 @@ namespace ConsoleGame
         {
             if (obj.IsAlive)
             {
-                return "Вы не можете взять живой объект!";
+                return "You can't take alive object!";
             }
             else if (inventory.Count == inventoryCapacity)
             {
-                return "Вы не можете нести больше. Нужно что-то выбросить!";
+                return "You can't carry more things! Something needs to be thrown away.";
             }
             else
             {
                 inventory.Add(obj);
-                return "Вы взяли " + obj.ToString();
+                return "You took " + obj.ToString();
             }
         }
 
