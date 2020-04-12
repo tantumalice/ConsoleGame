@@ -80,7 +80,7 @@ namespace ConsoleGame
             sb.AppendLine("About you:");
             sb.Append("Your name is ").AppendLine(Name);
             sb.AppendLine(Description);
-            sb.AppendLine($"You are at {coordinates.x}, {coordinates.y}");
+            //sb.AppendLine($"You are at {coordinates.x}, {coordinates.y}");
             return sb.ToString();
         }
         public static string ShowInventory()
