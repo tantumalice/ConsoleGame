@@ -20,7 +20,6 @@ namespace ConsoleGame
                     Field[i, j] = new Room();
                 }
             }
-            Player.SetGameField(Field);
         }
     }
 }
