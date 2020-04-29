@@ -13,7 +13,7 @@ namespace ConsoleGame
 
         public static Room Location => GameField.Field[coordinates.x, coordinates.y];
 
-        private static List<GameObject> inventory = new List<GameObject>(inventoryCapacity);
+        private static readonly List<GameObject> inventory = new List<GameObject>(inventoryCapacity);
 
         private static readonly int inventoryCapacity = 8;
 
