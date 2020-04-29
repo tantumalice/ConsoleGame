@@ -46,7 +46,7 @@ namespace ConsoleGame
                 if(command.StartsWith("go"))
                 {
                     var words = command.Split(" ");
-                    var direction = words[words.Length - 1];
+                    var direction = words[^1];
                     return Player.Go(direction);
                 }
                 else
