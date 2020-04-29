@@ -11,13 +11,7 @@ namespace ConsoleGame
 
         public static string Description = "You are here to explore the Rooms.";
 
-        public static Room Location
-        {
-            get
-            {
-                return GameField.Field[coordinates.x, coordinates.y];
-            }
-        }
+        public static Room Location => GameField.Field[coordinates.x, coordinates.y];
 
         private static List<GameObject> inventory = new List<GameObject>(inventoryCapacity);
 

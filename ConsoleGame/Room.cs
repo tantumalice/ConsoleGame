@@ -22,10 +22,7 @@ namespace ConsoleGame
             return sb.ToString();
         }
 
-        public void RemoveItem(GameObject item)
-        {
-            Items.Remove(item);
-        }
+        public void RemoveItem(GameObject item) => Items.Remove(item);
 
         public Room()
         {
