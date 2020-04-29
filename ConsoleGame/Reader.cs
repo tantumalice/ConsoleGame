@@ -8,14 +8,14 @@ namespace ConsoleGame
     {
         public static readonly HashSet<string> Commands = new HashSet<string>
         {
-            "Go to the West",
-            "Go to the North",
-            "Go to the South",
-            "Go to the East",
-            "Help",
-            "Me",
-            "Look around",
-            "Exit"
+            "go to the west",
+            "go to the north",
+            "go to the south",
+            "go to the east",
+            "help",
+            "me",
+            "look around",
+            "exit"
         };
 
         public static string ReadName()
@@ -36,14 +36,14 @@ namespace ConsoleGame
 
         public static string ReadCommand()
         {
-            var command = Console.ReadLine();
+            var command = Console.ReadLine().ToLower();
             if (!Commands.Contains(command))
             {
                 return Helper.WrongInput();
             }
             else
             {
-                if(command.StartsWith("Go"))
+                if(command.StartsWith("go"))
                 {
                     var words = command.Split(" ");
                     var direction = words[words.Length - 1];
@@ -53,10 +53,10 @@ namespace ConsoleGame
                 {
                     return command switch
                     {
-                        "Help" => Helper.GetHelpInfo(),
-                        "Me" => Player.About(),
-                        "Look around" => Player.Location.LookAround(),
-                        "Exit" => Helper.Exit(),
+                        "help" => Helper.GetHelpInfo(),
+                        "me" => Player.About(),
+                        "look around" => Player.Location.LookAround(),
+                        "exit" => Helper.Exit(),
                         _ => Helper.WrongInput()
                     };
                 }

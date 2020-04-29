@@ -40,28 +40,28 @@ namespace ConsoleGame
             bool success = false;
             switch (direction)
             {
-                case "West":
+                case "west":
                     if (coordinates.x - 1 > 0)
                     {
                         coordinates.x--;
                         success = true;
                     }
                     break;
-                case "East":
+                case "east":
                     if (coordinates.x + 1 < field.rangeX)
                     {
                         coordinates.x++;
                         success = true;
                     }
                     break;
-                case "North":
+                case "north":
                     if (coordinates.y + 1 < field.rangeY)
                     {
                         coordinates.y++;
                         success = true;
                     }
                     break;
-                case "South":
+                case "south":
                     if (coordinates.y - 1 > 0)
                     {
                         coordinates.y--;
