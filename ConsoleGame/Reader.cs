@@ -22,7 +22,7 @@ namespace ConsoleGame
         {
             Console.Write("Type your name here: ");
             var name = Console.ReadLine();
-            if (string.IsNullOrEmpty(name))
+            if (string.IsNullOrWhiteSpace(name))
             {
                 Console.WriteLine("Your name can't be emty.");
                 ReadName();
