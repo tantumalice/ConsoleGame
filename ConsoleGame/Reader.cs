@@ -20,18 +20,19 @@ namespace ConsoleGame
 
         public static string ReadName()
         {
-            Console.Write("Type your name here: ");
+            Console.WriteLine("# Type your name here: ");
+            Console.Write("> ");
             var name = Console.ReadLine();
             if (string.IsNullOrWhiteSpace(name))
             {
-                Console.WriteLine("Your name can't be emty.");
+                Console.WriteLine("# Your name can't be emty.");
                 ReadName();
             }
             else
             {
                 Player.Name = name;
             }
-            return $"Ok! I'll call you {Player.Name}.";
+            return $"# Ok! I'll call you {Player.Name}.";
         }
 
         public static string ReadCommand()

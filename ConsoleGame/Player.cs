@@ -75,7 +75,7 @@ namespace ConsoleGame
             sb.Append("Your name is ").AppendLine(Name);
             sb.AppendLine(Description);
             //sb.AppendLine($"You are at {coordinates.x}, {coordinates.y}");
-            return sb.ToString();
+            return sb.ToString().TrimEnd();
         }
         public static string ShowInventory()
         {
@@ -85,7 +85,7 @@ namespace ConsoleGame
             {
                 sb.AppendLine(obj.ToString());
             }
-            return sb.ToString();
+            return sb.ToString().TrimEnd();
         }
 
         public static string PutInInventory(GameObject obj)

@@ -14,7 +14,7 @@ namespace ConsoleGame
             {
                 sb.AppendLine(command);
             }
-            return sb.ToString();
+            return sb.ToString().TrimEnd();
         }
 
         public static string WrongInput()

@@ -19,7 +19,7 @@ namespace ConsoleGame
             {
                 sb.AppendLine(obj.ToString());
             }
-            return sb.ToString();
+            return sb.ToString().TrimEnd();
         }
 
         public void RemoveItem(GameObject item) => Items.Remove(item);
