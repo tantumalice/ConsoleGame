@@ -8,6 +8,7 @@ namespace ConsoleGame.GameObjects
     {
         public Stone()
         {
+            ID = idCounter++;
             Name = "Stone";
             Description = "Small gray stone. Ordinary crushed stone.";
             IsAlive = false;

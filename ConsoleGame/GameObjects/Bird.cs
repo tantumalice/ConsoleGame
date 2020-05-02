@@ -8,6 +8,7 @@ namespace ConsoleGame.GameObjects
     {
         public Bird()
         {
+            ID = idCounter++;
             IsAlive = true;
             Name = "Bird";
             Description = "Little bird. Maybe sparrow or titmouse.";

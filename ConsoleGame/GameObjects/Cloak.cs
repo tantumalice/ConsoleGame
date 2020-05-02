@@ -9,6 +9,7 @@ namespace ConsoleGame.GameObjects
         public Properties.FabricColor Color { get; protected set; }
         public Cloak()
         {
+            ID = idCounter++;
             Name = "Cloak";
             IsAlive = false;
             Color = RandomFiller.GetEnumValue<Properties.FabricColor>();

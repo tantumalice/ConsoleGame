@@ -8,6 +8,7 @@ namespace ConsoleGame.GameObjects
     {
         public Bowl()
         {
+            ID = idCounter++;
             Name = "Bowl";
             IsAlive = false;
             Description = "Old crumpled metal bowl.";

@@ -8,6 +8,7 @@ namespace ConsoleGame.GameObjects
     {
         public Book()
         {
+            ID = idCounter++;
             Name = "Book";
             IsAlive = false;
             Description = "Book with old yellow pages";
