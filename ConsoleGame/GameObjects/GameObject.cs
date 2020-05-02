@@ -13,6 +13,7 @@ namespace ConsoleGame.GameObjects
 
         public bool IsAlive { get; set; }
 
+        public float Weight { get; protected set; }
 
         protected static int idCounter = 0;
         public override string ToString() => Name;

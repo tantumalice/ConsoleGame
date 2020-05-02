@@ -12,6 +12,7 @@ namespace ConsoleGame.GameObjects
             Name = "Book";
             IsAlive = false;
             Description = "Book with old yellow pages";
+            Weight = 0.6f;
         }
     }
 }

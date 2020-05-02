@@ -12,6 +12,7 @@ namespace ConsoleGame.GameObjects
             Name = "Bowl";
             IsAlive = false;
             Description = "Old crumpled metal bowl.";
+            Weight = 0.4f;
         }
     }
 }

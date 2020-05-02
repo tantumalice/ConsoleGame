@@ -12,6 +12,7 @@ namespace ConsoleGame.GameObjects
             Name = "Stone";
             Description = "Small gray stone. Ordinary crushed stone.";
             IsAlive = false;
+            Weight = 0.2f;
         }
     }
 }

@@ -14,6 +14,7 @@ namespace ConsoleGame.GameObjects
             IsAlive = false;
             Color = RandomFiller.GetEnumValue<Properties.FabricColor>();
             Description = Color.ToString() + "old cloak.";
+            Weight = 1.2f;
         }
     }
 }

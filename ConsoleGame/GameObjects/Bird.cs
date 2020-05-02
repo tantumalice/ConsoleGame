@@ -12,6 +12,7 @@ namespace ConsoleGame.GameObjects
             IsAlive = true;
             Name = "Bird";
             Description = "Little bird. Maybe sparrow or titmouse.";
+            Weight = 0.05f;
         }
     }
 }
