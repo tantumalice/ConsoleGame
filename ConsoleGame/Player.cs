@@ -10,24 +10,22 @@ namespace ConsoleGame
         public static string Name { get; set; } = "Stranger";
 
         public static string Description = "You are here to explore the Rooms.";
-
         public static Room Location => GameField.Field[coordinates.x, coordinates.y];
 
-        private static readonly List<GameObject> inventory = new List<GameObject>(inventoryCapacity);
+        private static readonly List<GameObject> inventory = new List<GameObject>();
 
-        private static readonly int inventoryCapacity = 8;
+        private static float currentInventoryWeight = 0;
+
+        private static readonly float maxInventoryWeight = 5;
 
         private static (int x, int y) coordinates;
 
-        private static (int rangeX, int rangeY) field;
-
-        public static void SetGameField(Room[,] gameField)
+        public static void SetGameField()
         {
             Random rnd = new Random();
-            var rangeX = gameField.GetLength(0);
-            var rangeY = gameField.GetLength(1);
+            var rangeX = GameField.Field.GetLength(0);
+            var rangeY = GameField.Field.GetLength(1);
             coordinates = (rnd.Next(rangeX), rnd.Next(rangeY));
-            field = (rangeX, rangeY);
         }
         public static string Go(string direction)
         {
@@ -42,14 +40,14 @@ namespace ConsoleGame
                     }
                     break;
                 case "east":
-                    if (coordinates.x + 1 < field.rangeX)
+                    if (coordinates.x + 1 < GameField.Field.GetLength(0))
                     {
                         coordinates.x++;
                         success = true;
                     }
                     break;
                 case "north":
-                    if (coordinates.y + 1 < field.rangeY)
+                    if (coordinates.y + 1 < GameField.Field.GetLength(1))
                     {
                         coordinates.y++;
                         success = true;
@@ -88,20 +86,77 @@ namespace ConsoleGame
             return sb.ToString().TrimEnd();
         }
 
-        public static string PutInInventory(GameObject obj)
+        public static string PutInInventory(string name)
+        {
+            var buff = GameField.Field[coordinates.x, coordinates.y].Items
+                                                                    .FindAll
+                                                                     (
+                                                                      delegate (GameObject obj)
+                                                                      {
+                                                                          return obj.Name.ToLower() == name.ToLower();
+                                                                      }
+                                                                     );
+            switch (buff.Count)
+            {
+                case 0:
+                    return $"There is no {name} in this room!";
+                case 1:
+                    return AddInInventory(buff[0]);
+                default:
+                    if (buff[0].IsAlive)
+                    {
+                        return "You can't take alive object!";
+                    }
+                    else
+                    {
+                        var sb = new StringBuilder();
+                        sb.Append("IDs: ");
+                        foreach (var obj in buff)
+                        {
+                            sb.Append($"{obj.ID}  ");
+                        }
+                        var msg = $"There is more than one {name} in this room! Which one you would like to take? Type it's ID below. \n{sb}";
+                        return Reader.ReadID("take", msg);
+                    }
+            };
+        }
+
+        public static string PutInInventory(int id)
+        {
+            var obj = GameField.Field[coordinates.x, coordinates.y].Items
+                                                                   .Find
+                                                                    (
+                                                                     delegate (GameObject obj)
+                                                                     {
+                                                                         return obj.ID == id;
+                                                                     }
+                                                                    );
+            if (obj != null)
+            {
+                return AddInInventory(obj);
+            }
+            else
+            {
+                return Reader.ReReadID("take", "Type ID below.");
+            }
+        }
+
+        private static string AddInInventory(GameObject obj)
         {
             if (obj.IsAlive)
             {
                 return "You can't take alive object!";
             }
-            else if (inventory.Count == inventoryCapacity)
+            else if (currentInventoryWeight + obj.Weight > maxInventoryWeight)
             {
                 return "You can't carry more things! Something needs to be thrown away.";
             }
             else
             {
                 inventory.Add(obj);
-                return "You took " + obj.ToString();
+                GameField.Field[coordinates.x, coordinates.y].RemoveItem(obj);
+                currentInventoryWeight += obj.Weight;
+                return "You took the " + obj.ToString();
             }
         }
 

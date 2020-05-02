@@ -13,13 +13,20 @@ namespace ConsoleGame
 
         public string LookAround()
         {
-            var sb = new StringBuilder();
-            sb.AppendLine("In this room you see: ");
-            foreach (var obj in Items)
+            if (Items.Count > 0)
             {
-                sb.AppendLine(obj.ToString());
+                var sb = new StringBuilder();
+                sb.AppendLine("In this room you see: ");
+                foreach (var obj in Items)
+                {
+                    sb.AppendLine(obj.ToString());
+                }
+                return sb.ToString().TrimEnd();
             }
-            return sb.ToString().TrimEnd();
+            else
+            {
+                return "The room is empty.";
+            }
         }
 
         public void RemoveItem(GameObject item) => Items.Remove(item);

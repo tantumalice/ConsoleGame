@@ -6,7 +6,7 @@ namespace ConsoleGame
     {
         static void Main(string[] args)
         {
-            Player.SetGameField(GameField.Field);
+            Player.SetGameField();
             Console.WriteLine(Reader.ReadName());
             Console.WriteLine($"# Hello, {Player.Name}! Let's start the game! Type \"Help\" to see commands.");
             while (true)

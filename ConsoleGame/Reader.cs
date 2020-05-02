@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Text;
 
 namespace ConsoleGame
@@ -15,6 +16,7 @@ namespace ConsoleGame
             "help",
             "me",
             "look around",
+            "take %object name%",
             "exit"
         };
 
@@ -38,30 +40,53 @@ namespace ConsoleGame
         public static string ReadCommand()
         {
             var command = Console.ReadLine().ToLower();
-            if (!Commands.Contains(command))
+
+            if (command.StartsWith("go"))
             {
-                return Helper.WrongInput();
+                var words = command.Split(" ");
+                var direction = words[^1];
+                return Player.Go(direction);
+            }
+            else if (command.StartsWith("take"))
+            {
+                var objName = command.Split(" ")[^1];
+                return Player.PutInInventory(objName);
             }
             else
             {
-                if(command.StartsWith("go"))
+                return command switch
                 {
-                    var words = command.Split(" ");
-                    var direction = words[^1];
-                    return Player.Go(direction);
-                }
-                else
-                {
-                    return command switch
-                    {
-                        "help" => Helper.GetHelpInfo(),
-                        "me" => Player.About(),
-                        "look around" => Player.Location.LookAround(),
-                        "exit" => Helper.Exit(),
-                        _ => Helper.WrongInput()
-                    };
-                }
+                    "help" => Helper.GetHelpInfo(),
+                    "me" => Player.About(),
+                    "look around" => Player.Location.LookAround(),
+                    "exit" => Helper.Exit(),
+                    _ => Helper.WrongInput()
+                };
             }
+        }
+
+        public static string ReadID(string action, string msg)
+        {
+            Console.WriteLine($"# {msg}");
+            int id;
+            if (int.TryParse(Console.ReadLine(), out id))
+            {
+                return action switch
+                {
+                    "take" => Player.PutInInventory(id),
+                    _ => throw new ArgumentException()
+                };
+            }
+            else
+            {
+                return ReReadID(action, msg);
+            }
+        }
+
+        public static string ReReadID(string action, string msg)
+        {
+            Console.WriteLine("# Wrong ID! Type it again.");
+            return ReadID(action, msg);
         }
     }
 }
