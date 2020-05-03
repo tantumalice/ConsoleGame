@@ -42,7 +42,7 @@ namespace ConsoleGame
 
         public static string ReadCommand()
         {
-            var command = Console.ReadLine().ToLower();
+            var command = Console.ReadLine().ToLower().TrimEnd();
 
             if (command.StartsWith("go"))
             {
