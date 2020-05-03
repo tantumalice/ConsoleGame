@@ -22,10 +22,18 @@ namespace ConsoleGame
 
         public static void SetGameField()
         {
-            Random rnd = new Random();
             var rangeX = GameField.Field.GetLength(0);
             var rangeY = GameField.Field.GetLength(1);
-            coordinates = (rnd.Next(rangeX), rnd.Next(rangeY));
+            var x = RandomFiller.GetRandomInt(0, rangeX);
+            var y = RandomFiller.GetRandomInt(0, rangeY);
+            if (GameField.Field[x, y] != null)
+            {
+                coordinates = (x, y);
+            }
+            else
+            {
+                SetGameField();
+            }
         }
         public static string Go(string direction)
         {
@@ -33,30 +41,35 @@ namespace ConsoleGame
             switch (direction)
             {
                 case "west":
-                    if (coordinates.x - 1 > 0)
+                    int westX = coordinates.x - 1;
+                    if (westX > 0 && GameField.Field[westX, coordinates.y] != null)
                     {
-                        coordinates.x--;
+                        coordinates.x = westX;
                         success = true;
+
                     }
                     break;
                 case "east":
-                    if (coordinates.x + 1 < GameField.Field.GetLength(0))
+                    int eastX = coordinates.x + 1;
+                    if (eastX < GameField.Field.GetLength(0) && GameField.Field[eastX, coordinates.y] != null)
                     {
-                        coordinates.x++;
+                        coordinates.x = eastX;
                         success = true;
                     }
                     break;
                 case "north":
-                    if (coordinates.y + 1 < GameField.Field.GetLength(1))
+                    int northY = coordinates.y + 1;
+                    if (northY < GameField.Field.GetLength(1) && GameField.Field[coordinates.x, northY] != null)
                     {
-                        coordinates.y++;
+                        coordinates.y = northY;
                         success = true;
                     }
                     break;
                 case "south":
-                    if (coordinates.y - 1 > 0)
+                    int southY = coordinates.y - 1;
+                    if (southY > 0 && GameField.Field[coordinates.x, southY] != null)
                     {
-                        coordinates.y--;
+                        coordinates.y = southY;
                         success = true;
                     }
                     break;
@@ -73,7 +86,30 @@ namespace ConsoleGame
             sb.Append("Your name is ").AppendLine(Name);
             sb.AppendLine(Description);
             //sb.AppendLine($"You are at {coordinates.x}, {coordinates.y}");
+
             return sb.ToString().TrimEnd();
+        }
+
+        public static string ShowMap()
+        {
+            var sb = new StringBuilder();
+            for (int j = GameField.Field.GetLength(1) - 1; j >= 0; --j) // Remember coordinates system!
+            {
+                for (int i = 0; i < GameField.Field.GetLength(0); ++i)
+                {
+                    if (i == coordinates.x && j == coordinates.y)
+                    {
+                        sb.Append("@ ");
+                    }
+                    else
+                    {
+                        sb.Append((GameField.Field[i, j] == null) ? "x " : "o ");
+                    }
+                }
+                sb.Append("\n");
+            }
+            sb.Append("x - empty space, o - room, @ - you are here");
+            return sb.ToString();
         }
         public static string ShowInventory()
         {

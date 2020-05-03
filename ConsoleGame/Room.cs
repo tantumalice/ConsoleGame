@@ -35,8 +35,7 @@ namespace ConsoleGame
 
         public Room()
         {
-            var rnd = new Random();
-            var count = rnd.Next(1, initialItemsCapacity);
+            var count = RandomFiller.GetRandomInt(1, initialItemsCapacity);
             Items = new List<GameObject>(count);
             for (int i = 0; i < count; ++i)
             {

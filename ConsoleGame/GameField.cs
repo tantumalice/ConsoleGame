@@ -9,6 +9,8 @@ namespace ConsoleGame
         public static Room[,] Field { get; private set; }
 
         private const int fieldSize = 10;
+        private const int initialVoidsMax = 20;
+        private const int initialVoidsMin = 5;
 
         static GameField()
         {
@@ -19,6 +21,13 @@ namespace ConsoleGame
                 {
                     Field[i, j] = new Room();
                 }
+            }
+
+            int voidsNum = RandomFiller.GetRandomInt(initialVoidsMin, initialVoidsMax);
+            var coord = RandomFiller.GetRandomSequence(voidsNum, 0, fieldSize * fieldSize);
+            for (int i = 0; i < voidsNum; ++i)
+            {
+                Field[coord[i] / fieldSize, coord[i] % fieldSize] = null;
             }
         }
     }

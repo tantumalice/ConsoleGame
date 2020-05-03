@@ -19,6 +19,7 @@ namespace ConsoleGame
             "take %object name%",
             "throw %object name%",
             "show inventory",
+            "show map",
             "exit"
         };
 
@@ -68,6 +69,7 @@ namespace ConsoleGame
                     "look around" => Player.Location.LookAround(),
                     "exit" => Helper.Exit(),
                     "show inventory" => Player.ShowInventory(),
+                    "show map" => Player.ShowMap(),
                     _ => Helper.WrongInput()
                 };
             }
