@@ -9,7 +9,7 @@ namespace ConsoleGame
     {
         public List<GameObject> Items { get; protected set; }
 
-        private readonly int initialItemsCapacity = 4;
+        private const int initialItemsCapacity = 4;
 
         public string LookAround()
         {

@@ -8,7 +8,7 @@ namespace ConsoleGame
     {
         public static Room[,] Field { get; private set; }
 
-        private static readonly int fieldSize = 10;
+        private const int fieldSize = 10;
 
         static GameField()
         {

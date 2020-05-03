@@ -16,7 +16,7 @@ namespace ConsoleGame
 
         private static float currentInventoryWeight = 0;
 
-        private static readonly float maxInventoryWeight = 5;
+        private const float maxInventoryWeight = 5.0f;
 
         private static (int x, int y) coordinates;
 
