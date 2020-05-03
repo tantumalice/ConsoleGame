@@ -110,13 +110,13 @@ namespace ConsoleGame
                     else
                     {
                         var sb = new StringBuilder();
+                        sb.AppendLine($"There is more than one {name} in this room! Which one would you like to take? Type it's ID below.");
                         sb.Append("IDs: ");
                         foreach (var obj in buff)
                         {
                             sb.Append($"{obj.ID}  ");
                         }
-                        var msg = $"There is more than one {name} in this room! Which one you would like to take? Type it's ID below. \n{sb}";
-                        return Reader.ReadID("take", msg);
+                        return Reader.ReadID("take", sb.ToString());
                     }
             };
         }
