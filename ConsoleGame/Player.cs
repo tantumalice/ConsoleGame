@@ -77,13 +77,20 @@ namespace ConsoleGame
         }
         public static string ShowInventory()
         {
-            var sb = new StringBuilder();
-            sb.AppendLine("Your inventory: ");
-            foreach (var obj in inventory)
+            if (inventory.Count == 0)
             {
-                sb.AppendLine(obj.ToString());
+                return "Your inventory is empty.";
             }
-            return sb.ToString().TrimEnd();
+            else
+            {
+                var sb = new StringBuilder();
+                sb.AppendLine("Your inventory: ");
+                foreach (var obj in inventory)
+                {
+                    sb.AppendLine(obj.ToString());
+                }
+                return sb.ToString().TrimEnd();
+            }
         }
 
         public static string PutInInventory(string name)
@@ -141,6 +148,56 @@ namespace ConsoleGame
             }
         }
 
+        public static string ThrowOutOfInventory(string name)
+        {
+            var buff = Player.inventory
+                             .FindAll
+                              (
+                               delegate (GameObject obj)
+                               {
+                                   return obj.Name.ToLower() == name.ToLower();
+                               }
+                              );
+
+            switch (buff.Count)
+            {
+                case 0:
+                    return $"There is no {name} in your inventory!";
+                case 1:
+                    return RemoveFromInventory(buff[0]);
+                default:
+                    var sb = new StringBuilder();
+                    sb.AppendLine($"There is more than one {name} in your inventory! Which one would you like to throw away? Type it's ID below.");
+                    sb.Append("IDs: ");
+                    foreach (var obj in buff)
+                    {
+                        sb.Append($"{obj.ID}  ");
+                    }
+                    return Reader.ReadID("throw", sb.ToString());
+            };
+        }
+
+        public static string ThrowOutOfInventory(int id)
+        {
+            var obj = Player.inventory
+                            .Find
+                             (
+                              delegate (GameObject obj)
+                              {
+                                  return obj.ID == id;
+                              }
+                             );
+
+            if (obj != null)
+            {
+                return RemoveFromInventory(obj);
+            }
+            else
+            {
+                return Reader.ReReadID("throw", "Type ID below.");
+            }
+        }
+
         private static string AddInInventory(GameObject obj)
         {
             if (obj.IsAlive)
@@ -156,10 +213,16 @@ namespace ConsoleGame
                 inventory.Add(obj);
                 GameField.Field[coordinates.x, coordinates.y].RemoveItem(obj);
                 currentInventoryWeight += obj.Weight;
-                return "You took the " + obj.ToString();
+                return $"You took the {obj}.";
             }
         }
 
-        //TODO: выбросить объект
+        private static string RemoveFromInventory(GameObject obj)
+        {
+            inventory.Remove(obj);
+            GameField.Field[coordinates.x, coordinates.y].AddItem(obj);
+            currentInventoryWeight -= obj.Weight;
+            return $"You threw the {obj}.";
+        }
     }
 }

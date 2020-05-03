@@ -31,6 +31,8 @@ namespace ConsoleGame
 
         public void RemoveItem(GameObject item) => Items.Remove(item);
 
+        public void AddItem(GameObject item) => Items.Add(item);
+
         public Room()
         {
             var rnd = new Random();
@@ -41,7 +43,5 @@ namespace ConsoleGame
                 Items.Add(RandomFiller.GetGameObject());
             }
         }
-
-        //TODO: Add item
     }
 }

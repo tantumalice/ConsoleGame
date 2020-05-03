@@ -17,6 +17,8 @@ namespace ConsoleGame
             "me",
             "look around",
             "take %object name%",
+            "throw %object name%",
+            "show inventory",
             "exit"
         };
 
@@ -52,6 +54,11 @@ namespace ConsoleGame
                 var objName = command.Split(" ")[^1];
                 return Player.PutInInventory(objName);
             }
+            else if (command.StartsWith("throw"))
+            {
+                var objName = command.Split(" ")[^1];
+                return Player.ThrowOutOfInventory(objName);
+            }
             else
             {
                 return command switch
@@ -60,6 +67,7 @@ namespace ConsoleGame
                     "me" => Player.About(),
                     "look around" => Player.Location.LookAround(),
                     "exit" => Helper.Exit(),
+                    "show inventory" => Player.ShowInventory(),
                     _ => Helper.WrongInput()
                 };
             }
@@ -74,6 +82,7 @@ namespace ConsoleGame
                 return action switch
                 {
                     "take" => Player.PutInInventory(id),
+                    "throw" => Player.ThrowOutOfInventory(id),
                     _ => throw new ArgumentException()
                 };
             }
