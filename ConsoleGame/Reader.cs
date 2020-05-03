@@ -53,12 +53,26 @@ namespace ConsoleGame
             else if (command.StartsWith("take"))
             {
                 var objName = command.Split(" ")[^1];
-                return Player.PutInInventory(objName);
+                if (objName == "take")
+                {
+                    return "What do you want to take? Try again!";
+                }
+                else
+                {
+                    return Player.PutInInventory(objName);
+                }
             }
             else if (command.StartsWith("throw"))
             {
                 var objName = command.Split(" ")[^1];
-                return Player.ThrowOutOfInventory(objName);
+                if (objName == "throw")
+                {
+                    return "What do you want to throw? Try again!";
+                }
+                else
+                {
+                    return Player.ThrowOutOfInventory(objName);
+                }
             }
             else
             {
