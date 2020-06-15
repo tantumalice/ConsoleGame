@@ -131,14 +131,7 @@ namespace ConsoleGame
 
         public static string PutInInventory(string name)
         {
-            var buff = GameField.Field[coordinates.x, coordinates.y].Items
-                                                                    .FindAll
-                                                                     (
-                                                                      delegate (GameObject obj)
-                                                                      {
-                                                                          return obj.Name.ToLower() == name.ToLower();
-                                                                      }
-                                                                     );
+            var buff = GameField.Field[coordinates.x, coordinates.y].Items.FindAll(obj => obj.Name.ToLower() == name.ToLower());
             switch (buff.Count)
             {
                 case 0:
@@ -166,35 +159,13 @@ namespace ConsoleGame
 
         public static string PutInInventory(int id)
         {
-            var obj = GameField.Field[coordinates.x, coordinates.y].Items
-                                                                   .Find
-                                                                    (
-                                                                     delegate (GameObject obj)
-                                                                     {
-                                                                         return obj.ID == id;
-                                                                     }
-                                                                    );
-            if (obj != null)
-            {
-                return AddInInventory(obj);
-            }
-            else
-            {
-                return Reader.ReReadID("take", "Type ID below.");
-            }
+            var obj = GameField.Field[coordinates.x, coordinates.y].Items.Find(obj => obj.ID == id);
+            return obj != null ? AddInInventory(obj) : Reader.ReReadID("take", "Type ID below.");
         }
 
         public static string ThrowOutOfInventory(string name)
         {
-            var buff = Player.inventory
-                             .FindAll
-                              (
-                               delegate (GameObject obj)
-                               {
-                                   return obj.Name.ToLower() == name.ToLower();
-                               }
-                              );
-
+            var buff = inventory.FindAll(obj => obj.Name.ToLower() == name.ToLower());
             switch (buff.Count)
             {
                 case 0:
@@ -215,23 +186,8 @@ namespace ConsoleGame
 
         public static string ThrowOutOfInventory(int id)
         {
-            var obj = Player.inventory
-                            .Find
-                             (
-                              delegate (GameObject obj)
-                              {
-                                  return obj.ID == id;
-                              }
-                             );
-
-            if (obj != null)
-            {
-                return RemoveFromInventory(obj);
-            }
-            else
-            {
-                return Reader.ReReadID("throw", "Type ID below.");
-            }
+            var obj = inventory.Find(obj => obj.ID == id);
+            return obj != null ? RemoveFromInventory(obj) : Reader.ReReadID("throw", "Type ID below.");
         }
 
         private static string AddInInventory(GameObject obj)
