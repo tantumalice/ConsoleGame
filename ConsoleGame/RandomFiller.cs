@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace ConsoleGame
 {
-    class RandomFiller
+    static class RandomFiller
     {
         private static Random rnd = new Random();
 
