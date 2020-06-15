@@ -92,8 +92,7 @@ namespace ConsoleGame
         public static string ReadID(string action, string msg)
         {
             Console.WriteLine($"# {msg}");
-            int id;
-            if (int.TryParse(Console.ReadLine(), out id))
+            if (int.TryParse(Console.ReadLine(), out var id))
             {
                 return action switch
                 {
