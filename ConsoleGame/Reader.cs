@@ -24,22 +24,6 @@ namespace ConsoleGame
             {"go to the east", new Func<string>(() => Player.Go("east"))}
         };
 
-        public static readonly HashSet<string> Commands = new HashSet<string>
-        {
-            "go to the west",
-            "go to the north",
-            "go to the south",
-            "go to the east",
-            "help",
-            "me",
-            "look around",
-            "take %object name%",
-            "throw %object name%",
-            "show inventory",
-            "show map",
-            "exit"
-        };
-
         public static string ReadName()
         {
             Console.WriteLine("# Type your name here: ");
@@ -61,48 +45,20 @@ namespace ConsoleGame
         {
             var command = Console.ReadLine().ToLower().TrimEnd();
 
-            if (command.StartsWith("go"))
+            if (SimpleCommands.TryGetValue(command, out var action))
             {
-                var words = command.Split(" ");
-                var direction = words[^1];
-                return Player.Go(direction);
-            }
-            else if (command.StartsWith("take"))
-            {
-                var objName = command.Split(" ")[^1];
-                if (objName == "take")
-                {
-                    return "What do you want to take? Try again!";
-                }
-                else
-                {
-                    return Player.PutInInventory(objName);
-                }
-            }
-            else if (command.StartsWith("throw"))
-            {
-                var objName = command.Split(" ")[^1];
-                if (objName == "throw")
-                {
-                    return "What do you want to throw? Try again!";
-                }
-                else
-                {
-                    return Player.ThrowOutOfInventory(objName);
-                }
+                return action.Invoke();
             }
             else
             {
-                return command switch
+                if (Interactions.TryGetValue(command.Split(" ")[0], out var interaction))
                 {
-                    "help" => Helper.GetHelpInfo(),
-                    "me" => Player.About(),
-                    "look around" => Player.Location.LookAround(),
-                    "exit" => Helper.Exit(),
-                    "show inventory" => Player.ShowInventory(),
-                    "show map" => Player.ShowMap(),
-                    _ => Helper.WrongInput()
-                };
+                    return interaction.Invoke(command);
+                }
+                else
+                {
+                    return Helper.WrongInput();
+                }
             }
         }
 
@@ -119,16 +75,16 @@ namespace ConsoleGame
             }
         }
 
-        public static string ProcessThrowing(string commamd)
+        public static string ProcessThrowing(string command)
         {
             var objName = command.Split(" ")[^1];
-            if (objName == "take")
+            if (objName == "throw")
             {
-                return "What do you want to take? Try again!";
+                return "What do you want to throw? Try again!";
             }
             else
             {
-                return Player.PutInInventory(objName);
+                return Player.ThrowOutOfInventory(objName);
             }
         }
 

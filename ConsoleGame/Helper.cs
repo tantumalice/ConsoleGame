@@ -10,9 +10,13 @@ namespace ConsoleGame
         {
             var sb = new StringBuilder();
             sb.AppendLine("List of commands:");
-            foreach (var command in Reader.Commands)
+            foreach (var command in Reader.SimpleCommands)
             {
-                sb.AppendLine(command);
+                sb.AppendLine(command.Key);
+            }
+            foreach (var command in Reader.Interactions)
+            {
+                sb.Append(command.Key).AppendLine(" %object name%");
             }
             return sb.ToString().TrimEnd();
         }
